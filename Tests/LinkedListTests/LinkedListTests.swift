@@ -5,15 +5,22 @@ final class LinkedListTests: XCTestCase {
     var sourceSequence = [0,1]
     
     func testNext() {
-        let source = [0,1]
-        let node1 = LinkedListNode(source)
-        let node2 = node1.next
-        XCTAssertEqual(node2,
-                       LinkedListNode([source[source.startIndex.advanced(by: 1)]]),
+        let node = LinkedListNode(sourceSequence)
+        XCTAssertEqual(node.next,
+                       LinkedListNode([sourceSequence[sourceSequence.startIndex.advanced(by: 1)]]),
                        "The next property should return the next node in the list")
-        XCTAssertNotEqual(node2,
-                          LinkedListNode([source[source.startIndex]]),
+        XCTAssertNotEqual(node.next,
+                          LinkedListNode([sourceSequence[sourceSequence.startIndex]]),
                           "The next property should return the next node in the list")
+        XCTAssertEqual(node.next.next, .empty, "Beyond the last value node should be .empty")
+        XCTAssertEqual(LinkedListNode<Int>().next, .empty, "The next property of an .empty node should also be .empty")
+    }
+    
+    func testValue() {
+        let node = LinkedListNode(sourceSequence)
+        XCTAssertEqual(node.value, sourceSequence.first, "A LinkedListNode's `value` property should return its value and it should be Optional")
+        let emptyNode = LinkedListNode<Int>()
+        XCTAssertEqual(emptyNode.value, nil, "A LinkedListNode's `value` property should return nil if the node is .empty")
     }
     
     func testComparableIndex() {
@@ -21,7 +28,6 @@ final class LinkedListTests: XCTestCase {
         let biggerNode = smallerNode.next.next.next
         XCTAssertLessThan(smallerNode, biggerNode, "LinkedListNode indexes should be comparable. A node is considered to be greater than a second node if it is contained within the first node's chain of nodes")
         XCTAssertTrue(smallerNode < biggerNode)
-        
     }
     
     func testAppend() {
@@ -78,6 +84,18 @@ final class LinkedListTests: XCTestCase {
         XCTAssertEqual(node[0], sourceSequence[0])
     }
     
+    func testCustomCount() {
+        let node = LinkedListNode(sourceSequence)
+        XCTAssertEqual(node.count, sourceSequence.count)
+    }
+    
+    func testCustomCountPerf() {
+        let magicNumber = 11_634 // TODO: Trying to init with more elements than this causes a bad access. Probably because the init from sequence is recursive. FIX
+        let node = LinkedListNode(Array<Int>(repeating: 0, count: magicNumber))
+        measure {
+            _ = node.count
+        }
+    }
     
     static var allTests = [
         ("testNext", testNext),
@@ -88,5 +106,8 @@ final class LinkedListTests: XCTestCase {
         ("testDefaultInit", testDefaultInit),
         ("testIntegerSubscript", testIntegerSubscript),
         ("testIntegerSubscriptSet", testIntegerSubscriptSet),
+        ("testValue", testValue),
+        ("testCustomCountPerf", testCustomCountPerf),
+        ("testCustomCount", testCustomCount),
     ]
 }
