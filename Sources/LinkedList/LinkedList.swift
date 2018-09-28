@@ -38,24 +38,6 @@ public enum LinkedListNode<Value: Equatable>: Equatable {
         }
     }
     
-    var last: LinkedListNode? {
-        guard case .value = self else { return nil }
-        var current = self
-        while case .value = current.next {
-            current = current.next
-        }
-        return current
-    }
-    
-    var first: LinkedListNode? {
-        switch self {
-        case .value:
-            return self
-        case .empty:
-            return nil
-        }
-    }
-    
     public mutating func append(_ element: Value) {
         guard case .value = self else { self = .value(element, next: .empty); return }
         var keypath: WritableKeyPath<LinkedListNode, LinkedListNode> = \LinkedListNode.next
