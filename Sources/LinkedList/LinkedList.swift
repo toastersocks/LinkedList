@@ -62,6 +62,7 @@ public enum LinkedListNode<Value: Equatable>: Equatable {
     }
     
     public init<T: Sequence>(_ sequence: T?) where T.Element == Value {
+        // TODO: Trying to init with more than 11_634 elements causes a bad access. Probably because the init from sequence is recursive. FIX
         self = LinkedListNode.initNext(sequence)
     }
     
