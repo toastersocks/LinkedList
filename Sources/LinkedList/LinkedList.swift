@@ -169,11 +169,11 @@ extension LinkedListNode { // Mark: Integer subscriptable
     public subscript(_ indexOffset: Int) -> Element {
         get {
             precondition(indexOffset < count && indexOffset >= 0, "Index out of bounds")
-            return self[self.index(startIndex, offsetBy: indexOffset)]
+            return self[index(startIndex, offsetBy: indexOffset)]
         }
         set {
             precondition(indexOffset < count && indexOffset >= 0, "Index out of bounds")
-            self[self.index(startIndex, offsetBy: indexOffset)] = newValue
+            self[index(startIndex, offsetBy: indexOffset)] = newValue
         }
     }
     
