@@ -46,7 +46,7 @@ final class LinkedListTests: XCTestCase {
     func testCollectionConformance() {
 
         let node = LinkedListNode(sourceSequence)
-        XCTAssertEqual(node.startIndex, node, "A LinkedListNode's startIndex should be equal to the node")
+        XCTAssertEqual(node.startIndex, node, "A LinkedListNode's startIndex should be equal to the node itself")
         XCTAssertEqual(node.endIndex, .empty, "A LinkedListNode's endIndex should be equal to the .empty")
         XCTAssertEqual(node[node.index(after: node.startIndex)], sourceSequence[sourceSequence.index(after: sourceSequence.startIndex)])
     }
