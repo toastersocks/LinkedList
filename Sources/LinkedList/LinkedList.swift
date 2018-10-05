@@ -54,27 +54,23 @@ public enum LinkedListNode<Value: Equatable>: Equatable {
     
     
     private static func initNext<T: Sequence>(_ sequence: T?) -> LinkedListNode<Value> where T.Element == Value {
-        guard let sequence = sequence,
-            let element = sequence.first(where: { _ in true })
+        guard let sequence = sequence
             else { return .empty }
         
-        return .value(element, next: LinkedListNode(sequence.dropFirst(1)))
+        var linkedList: LinkedListNode = .empty
+        for element in sequence.lazy.reversed() {
+            linkedList = .value(element, next: linkedList)
+        }
+        return linkedList
     }
     
     public init<T: Sequence>(_ sequence: T?) where T.Element == Value {
-        // TODO: Trying to init with more than 11_634 elements causes a bad access. Probably because the init from sequence is recursive. FIX
         self = LinkedListNode.initNext(sequence)
     }
     
     public init() {
      self = .empty
     }
-    
-    /*
-    public init(value: Value, next: LinkedListNode) {
-        self = .value(value, next: next)
-    }
-    */
 }
 
 extension LinkedListNode: Comparable {

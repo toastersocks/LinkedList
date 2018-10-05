@@ -90,10 +90,23 @@ final class LinkedListTests: XCTestCase {
     }
     
     func testCustomCountPerf() {
-        let magicNumber = 11_634 // TODO: Trying to init with more elements than this causes a bad access. Probably because the init from sequence is recursive. FIX
-        let node = LinkedListNode(Array<Int>(repeating: 0, count: magicNumber))
+        let elementCount = 52_355
+        let node = LinkedListNode(Array<Int>(repeating: 0, count: elementCount))
         measure {
             _ = node.count
+        }
+    }
+    
+    func testInitWithManyElements() {
+        let elementCount = 58_173
+        let node = LinkedListNode(Array<Int>(repeating: 0, count: elementCount))
+        XCTAssertEqual(node.count, elementCount)
+    }
+    
+    func testInitPerformance() {
+        let elementCount = 58_173
+        measure {
+            let _ = LinkedListNode(Array<Int>(repeating: 0, count: elementCount))
         }
     }
     
@@ -109,5 +122,7 @@ final class LinkedListTests: XCTestCase {
         ("testValue", testValue),
         ("testCustomCountPerf", testCustomCountPerf),
         ("testCustomCount", testCustomCount),
+        ("testInitWithManyElements", testInitWithManyElements),
+        ("testInitPerformance", testInitPerformance),
     ]
 }
