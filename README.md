@@ -1,3 +1,3 @@
 # LinkedList
 
-A description of this package.
+A linked list implementation
